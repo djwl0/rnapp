@@ -25,7 +25,6 @@ export default function App() {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
-          // tabBarBadge: 3,
         }}
         />
 
