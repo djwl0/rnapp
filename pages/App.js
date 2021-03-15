@@ -1,0 +1,44 @@
+import  React from 'react';
+import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import My from './user/My'
+import Hot from './index/hot'
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  
+  return (
+    <NavigationContainer>
+      {/* 隐藏导航栏 */}
+      <StatusBar
+        translucent={true}
+        backgroundColor="transparent"
+        barStyle="light-content"/>
+
+        {/* 两个底部导航页 */}
+      <Tab.Navigator>
+        <Tab.Screen name="主页" component={Hot} 
+        options={{
+          tabBarLabel: '主页',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+          // tabBarBadge: 3,
+        }}
+        />
+
+        <Tab.Screen name="我的" component={My} 
+        options={{
+          tabBarLabel: '我的',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+          // tabBarBadge: 3,  通知信息
+        }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
