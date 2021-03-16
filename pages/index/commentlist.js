@@ -95,6 +95,7 @@ onChangeText=(value)=>{
 this.setState({
   textvalue:value
 })
+console.log(value)
 }
 
 

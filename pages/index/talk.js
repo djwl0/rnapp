@@ -365,7 +365,7 @@ render(){
                 </SafeAreaView>
                 </View>
                
-                    <View style={{width:'100%',height:50,position:'absolute',bottom:0,flexDirection:"row",borderTopColor:'grey',borderTopWidth:0.5}}>
+                    <View style={{width:'100%',height:50,position:'absolute',bottom:0,flexDirection:"row",borderTopColor:'grey',borderTopWidth:0.5,elevation:6}}>
                     <View style={{width:50,height:50,backgroundColor:'white'}}>
                     <Image
                         style={{width:40,height:40,borderRadius:20,marginTop:5}}
@@ -413,6 +413,7 @@ const styles = StyleSheet.create({
       shadowOpacity:  0.4,
       shadowRadius: 3,
       elevation: 5,
+      position:'relative',
     }
   });
 
