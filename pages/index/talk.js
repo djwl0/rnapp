@@ -380,7 +380,7 @@ render(){
                         value={this.state.maintalk}
                         placeholder={this.state.placeholder}
                         blurOnSubmit={true}
-                        // autoFocus={true}
+                        maxLength={150}
                         ref={input=>this.input=input}
                         onSubmitEditing={this.inserttalk}
                         />

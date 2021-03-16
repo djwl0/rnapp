@@ -1,8 +1,7 @@
 import React from 'react';
-import {SafeAreaView,
+import {
     View,
     FlatList,
-    StyleSheet,
     Text,
     Image,TextInput,ToastAndroid,Keyboard,TouchableHighlight, Modal} from 'react-native';
 import utime from '../transformtime'
@@ -28,12 +27,6 @@ class Talkintalk extends React.Component{
             textvalue:value
         })
     }
-    // UNSAFE_componentWillUpdate=()=>{ 
-    //     this.setState({
-    //         kkk:this.props.route.params.ll
-    //     })
-       
-    // }
     reply=()=>{
         storage.load({key:"account"}).then(res=>{
         fetch("http://47.93.233.220:8099/inserttalkin?commentid="+this.props.route.params.zz.commentid
@@ -51,12 +44,30 @@ class Talkintalk extends React.Component{
                     })
                     this.props.route.params.refrush()
                     Keyboard.dismiss()
+                    console.log(this.props.route.params.ll)
+                    // this.props.navigation.setParams({
+                    //     ll: this.props.route.params.ll.push({
+                    //         // talkintalkid: this.props.route.params.ll[this.props.route.params.ll.length].talkintalkid+1,
+                    //         // username:res.username
+                    //         "commentid": 146,
+                    //          "icon": "http://rnapp.test.upcdn.net/1.webp!icon",
+                    //           "main": "。。。",
+                    //            "replyuserid": 1,
+                    //             "replyusername": "你还想让我代替谁",
+                    //              "talkid": 161, 
+                    //              "talkintalkid": 44,
+                    //               "time": "2021-03-16T03:31:15.000Z",
+                    //                "userid": 1,
+                    //                 "username": "你还想让我代替谁"
+                    //     })
+                    // })
+                    ToastAndroid.showWithGravityAndOffset('评论成功',ToastAndroid.SHORT,ToastAndroid.CENTER,0,0)
                 }
                 
             })
 
         }).catch(err=>{
-            alert("请先登录")
+            ToastAndroid.showWithGravityAndOffset('请先登录',ToastAndroid.SHORT,ToastAndroid.TOP,0,0)
         })
 
        
@@ -147,7 +158,7 @@ class Talkintalk extends React.Component{
                                 placeholder={this.state.placeholder}
                                 multiline={true}
                                 numberOfLines={5}
-                                maxLength={200}
+                                maxLength={150}
                             />
                             <View style={{marginTop:10,flexDirection:'row',height:40,borderBottomRightRadius:20,borderBottomLeftRadius:20}}>
                                 {/* 返回 */}

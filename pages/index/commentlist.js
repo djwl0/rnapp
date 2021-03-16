@@ -325,7 +325,7 @@ submitcomment=()=>{
             placeholder={'请输入你想说的话'}
             multiline={true}
             numberOfLines={5}
-            maxLength={200}
+            maxLength={250}
           />
           <View style={{width:300, flexDirection: 'row',marginTop:10,borderRadius:10}}>
           <TouchableHighlight
