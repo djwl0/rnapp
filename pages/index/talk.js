@@ -306,7 +306,7 @@ render(){
                             onPress={
                                 ()=>{
                                 this.props.navigation.navigate('所有回复',
-                                {zz:item,ll:this.state.talkintalk.filter(zzz=>this.listfilter(zzz,item.talkid)).reverse(),refrush:()=>this.gettalkintalk(ddd.commentid)})            
+                                {zz:item,ll:(this.state.talkintalk.filter(zzz=>this.listfilter(zzz,item.talkid))).reverse(),refrush:()=>this.gettalkintalk(ddd.commentid)})            
                                 }
                             } 
                             style={{marginHorizontal:50,backgroundColor:'#F0F0F0',paddingHorizontal:10,paddingBottom:5,paddingTop:5}}  
