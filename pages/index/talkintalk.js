@@ -28,43 +28,47 @@ class Talkintalk extends React.Component{
         })
     }
     reply=()=>{
-        storage.load({key:"account"}).then(res=>{
+        storage.load({key:"account"}).then(red=>{
+        if(this.state.textvalue!="")
         fetch("http://47.93.233.220:8099/inserttalkin?commentid="+this.props.route.params.zz.commentid
-            +"&&talkid="+this.props.route.params.zz.talkid+"&&userid="+res.userid+"&&replyuserid="+this.state.talkintalkitem.userid
-            +"&&replyusername="+this.state.talkintalkitem.username+"&&main="+this.state.textvalue).then(res=>{
+            +"&&talkid="+this.props.route.params.zz.talkid+"&&userid="+red.userid+"&&replyuserid="+this.state.talkintalkitem.userid
+            +"&&main="+this.state.textvalue).then(res=>{
                 return res.json()
             }).then(res=>{
                 if(res=="1")
                 {
+                    // 老的数据源
+                    const old=this.props.route.params.ll
+                    // console.log(old)
+                    // 新的数据源
+                    old.unshift({
+                        commentid:old[0].commentid,
+                        icon:red.icon,
+                        main:this.state.textvalue,
+                        replyuserid:this.state.talkintalkitem.userid,
+                        replyusername:this.state.talkintalkitem.username,
+                        time:new Date(),
+                        userid:red.userid,
+                        username:red.name,
+                        talkintalkid:200
+                    })
+                    // console.log(newll)
                     this.setState({
                         modalhide:false,
                         talkintalkitem:{},
                         placeholder:"",
                         textvalue:"",
                     })
-                    this.props.route.params.refrush()
-                    Keyboard.dismiss()
-                    console.log(this.props.route.params.ll)
-                    // this.props.navigation.setParams({
-                    //     ll: this.props.route.params.ll.push({
-                    //         // talkintalkid: this.props.route.params.ll[this.props.route.params.ll.length].talkintalkid+1,
-                    //         // username:res.username
-                    //         "commentid": 146,
-                    //          "icon": "http://rnapp.test.upcdn.net/1.webp!icon",
-                    //           "main": "。。。",
-                    //            "replyuserid": 1,
-                    //             "replyusername": "你还想让我代替谁",
-                    //              "talkid": 161, 
-                    //              "talkintalkid": 44,
-                    //               "time": "2021-03-16T03:31:15.000Z",
-                    //                "userid": 1,
-                    //                 "username": "你还想让我代替谁"
-                    //     })
-                    // })
+                //收起键盘  
+                    Keyboard.dismiss()                  
                     ToastAndroid.showWithGravityAndOffset('评论成功',ToastAndroid.SHORT,ToastAndroid.CENTER,0,0)
+                    this.props.route.params.refrush()
                 }
                 
             })
+            else
+            ToastAndroid.showWithGravityAndOffset('请输入内容',ToastAndroid.SHORT,ToastAndroid.CENTER,0,0)
+
 
         }).catch(err=>{
             ToastAndroid.showWithGravityAndOffset('请先登录',ToastAndroid.SHORT,ToastAndroid.TOP,0,0)
@@ -81,7 +85,6 @@ class Talkintalk extends React.Component{
                 activeOpacity={1}
                 underlayColor="#F0F0F0"
                onPress={()=>{
-                //   alert("回复")
                 this.setState({modalhide:true,placeholder:"回复："+item.username,talkintalkitem:item})
                }
                  }>

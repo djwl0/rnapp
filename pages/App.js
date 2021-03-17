@@ -18,7 +18,15 @@ export default function App() {
         barStyle="light-content"/>
 
         {/* 两个底部导航页 */}
-      <Tab.Navigator>
+      <Tab.Navigator
+        tabBarOptions={{
+          // 激活时的颜色
+          activeTintColor: 'skyblue',
+          // 没有激活的颜色
+          inactiveTintColor: 'gray',
+          keyboardHidesTabBar:true
+        }}
+      >
         <Tab.Screen name="主页" component={Hot} 
         options={{
           tabBarLabel: '主页',
