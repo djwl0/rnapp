@@ -1,14 +1,6 @@
 import React from 'react'
 import {View,Text,TextInput,ToastAndroid,TouchableHighlight} from 'react-native';
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-community/async-storage';
-
-const storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage,
-    defaultExpires: null,
-    enableCache: false, 
-});
+import storage from '../Storage'
 
 
 class Login extends React.Component{

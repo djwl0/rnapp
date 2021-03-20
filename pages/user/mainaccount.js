@@ -1,15 +1,6 @@
 import React from 'react'
-import {View,Text,Button,Image,TouchableHighlight} from 'react-native';
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-community/async-storage';
-
-
-const storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage,
-    defaultExpires: null,
-    enableCache: false, 
-  });
+import {View,Text,Image,TouchableHighlight} from 'react-native';
+import storage from '../Storage'
 
 
 class Mainaccount extends React.Component{

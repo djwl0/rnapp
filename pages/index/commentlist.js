@@ -8,19 +8,10 @@ import {SafeAreaView,
     TouchableHighlight,
     RefreshControl,
     Modal,
-    TextInput,ToastAndroid,Alert} from 'react-native';
+    TextInput,ToastAndroid} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-community/async-storage';
 import utime from '../transformtime'
-
-const storage = new Storage({
-  size: 1000,
-  storageBackend: AsyncStorage,
-  defaultExpires: null,
-  enableCache: false, 
-});
-
+import storage from '../Storage'
 
 class Commentlist extends React.Component{
 
@@ -379,7 +370,6 @@ const styles = StyleSheet.create({
     },
     item: {
       backgroundColor: 'white',
-      // padding: 10,
       marginVertical: 5,
       marginHorizontal: 10,
       borderRadius:20,

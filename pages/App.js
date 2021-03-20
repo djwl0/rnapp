@@ -5,10 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import My from './user/My'
 import Hot from './index/hot'
-const Tab = createBottomTabNavigator();
+import Index from './index/test'
 
+
+const Tab = createBottomTabNavigator();
 export default function App() {
-  
   return (
     <NavigationContainer>
       {/* 隐藏导航栏 */}
@@ -30,6 +31,15 @@ export default function App() {
         <Tab.Screen name="主页" component={Hot} 
         options={{
           tabBarLabel: '主页',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+        />
+
+        <Tab.Screen name="实验主页" component={Index} 
+        options={{
+          tabBarLabel: '测试主页',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),

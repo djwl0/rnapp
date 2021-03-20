@@ -7,16 +7,8 @@ import {SafeAreaView,
     Image,TextInput,ToastAndroid,Keyboard,TouchableHighlight
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-community/async-storage';
 import utime from '../transformtime'
-const storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage,
-    defaultExpires: null,
-    enableCache: false, 
-  });
-
+import storage from '../Storage'
 class Talk extends React.Component{
 
 state={
