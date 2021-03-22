@@ -33,7 +33,7 @@ class Login extends React.Component{
                         key:'account',
                         data:{
                             userid:re.userid,
-                            name:re.username,
+                            username:re.username,
                             account:re.useraccount,
                             pwd:re.userpwd,
                             icon:re.icon
@@ -41,7 +41,7 @@ class Login extends React.Component{
                     }).catch(err=>{console.log(error)})
                     // this.props.login("哈哈")
                     ToastAndroid.showWithGravityAndOffset('登录成功',ToastAndroid.SHORT,ToastAndroid.TOP,0,0)
-                    this.props.navigation.navigate('个人中心')
+                    this.props.navigation.navigate('个人中心',{islogin:true,user:re})
                 }
                 else
                 alert("账号或密码错误")
@@ -92,12 +92,12 @@ class Login extends React.Component{
                 </TouchableHighlight>
                 <View style={{marginHorizontal:30,height:20,marginTop:20,flexDirection:'row',justifyContent:'space-between'}}>
                     <Text style={{flex:1,textAlign:'center'}}
-                    onPress={()=>alert("账号注册")}
+                    onPress={()=>alert("待开发")}
                     >
                         账号注册
                     </Text>
                     <Text style={{flex:1,textAlign:'center'}}
-                     onPress={()=>alert("忘记密码")}
+                     onPress={()=>alert("待开发")}
                     >
                         忘记密码                        
                     </Text>

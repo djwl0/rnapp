@@ -3,14 +3,16 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {  Provider } from '@ant-design/react-native';
 import My from './user/My'
 import Hot from './index/hot'
-import Index from './index/test'
+// import Index from './index/test'
 
 
 const Tab = createBottomTabNavigator();
 export default function App() {
   return (
+    <Provider>
     <NavigationContainer>
       {/* 隐藏导航栏 */}
       <StatusBar
@@ -37,15 +39,6 @@ export default function App() {
         }}
         />
 
-        <Tab.Screen name="实验主页" component={Index} 
-        options={{
-          tabBarLabel: '测试主页',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-        />
-
         <Tab.Screen name="我的" component={My} 
         options={{
           tabBarLabel: '我的',
@@ -57,5 +50,6 @@ export default function App() {
         />
       </Tab.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }

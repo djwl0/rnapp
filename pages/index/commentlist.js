@@ -15,7 +15,6 @@ import storage from '../Storage'
 
 class Commentlist extends React.Component{
 
-
 state = {
     isRefreshing: false,
     DATA:[],
@@ -40,18 +39,11 @@ getcommentlike=()=>{
         })
 
       })
-}).catch(err=>{
-
-  this.setState({
-    havelike:[]
-  })
-
-})
- 
-
+}).catch(err=>{})
 }
 
-UNSAFE_componentWillMount=()=>{
+// 获取列表数据，进行列表渲染
+componentDidMount=()=>{
   fetch("http://47.93.233.220:8099/getcomments").then((res)=>{
     return res.json()
   }).then((res)=>{
@@ -89,7 +81,7 @@ this.setState({
 console.log(value)
 }
 
-
+// 判断是否被点赞
 judgelike=(commentid)=>{
   const length=this.state.havelike.length
   let re=false
@@ -121,7 +113,6 @@ ilike=(commentid)=>{
       else
       ToastAndroid.showWithGravityAndOffset('你已经点过赞了',ToastAndroid.SHORT,ToastAndroid.CENTER,0,-400)
     }).catch(err=>{
-      // alert("发生错误")
     })
      // 取消点赞
     else
@@ -143,11 +134,6 @@ ilike=(commentid)=>{
   }).catch(err=>{
     ToastAndroid.showWithGravityAndOffset('请先登录',ToastAndroid.SHORT,ToastAndroid.CENTER,0,-400)
   })
-
-
- 
-  // alert("取消点赞")
-
 }
 
 // 调用接口添加数据
@@ -168,7 +154,6 @@ submitcomment=()=>{
   fetch("http://47.93.233.220:8099/insertcomments?main="+this.state.textvalue+"&&userid="+this.state.user.userid).then(res=>{
 				return res.json()
 			}).then(res=>{
-				// console.log(res)
 				if(res=='1')
         {
           ToastAndroid.showWithGravityAndOffset('发表成功',ToastAndroid.SHORT,ToastAndroid.TOP,0,0)
@@ -191,9 +176,6 @@ submitcomment=()=>{
 
 
   render(){
-    
-  
-
       const renderItem = ({ item }) => {
         return (
               <View style={styles.item} >
@@ -263,6 +245,7 @@ submitcomment=()=>{
 
       return(
           <SafeAreaView style={styles.container}>
+            {/* 添加评论的按钮 */}
             {this.state.hideadd==true?
               <TouchableHighlight
                   activeOpacity={0.6}
@@ -379,7 +362,6 @@ const styles = StyleSheet.create({
       shadowRadius: 3,
       elevation: 5,
     },
-   
   });
 
 export default  Commentlist;

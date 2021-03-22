@@ -42,7 +42,7 @@ class Talkintalk extends React.Component{
                         replyusername:this.state.talkintalkitem.username,
                         time:new Date(),
                         userid:red.userid,
-                        username:red.name,
+                        username:red.username,
                         talkintalkid:200
                     })
                     // console.log(newll)
