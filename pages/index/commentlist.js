@@ -78,7 +78,7 @@ onChangeText=(value)=>{
 this.setState({
   textvalue:value
 })
-console.log(value)
+// console.log(value)
 }
 
 // 判断是否被点赞
@@ -181,7 +181,7 @@ submitcomment=()=>{
               <View style={styles.item} >
                 {/* 头像部分 */}
                 <View style={{height:40,flexDirection:'row',margin:10}}>
-                  <View style={{height:40,width:40,backgroundColor:'blue',borderRadius:20}}>
+                  <View style={{height:40,width:40,borderRadius:20}}>
                   <Image
                       style={{height:40,width:40,borderRadius:20}}
                       source={{uri: item.icon}}

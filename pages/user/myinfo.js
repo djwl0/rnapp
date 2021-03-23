@@ -2,13 +2,9 @@ import React from 'react'
 import {View,Text,Image,TouchableHighlight} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Button,Toast } from '@ant-design/react-native';
+import storage from '../Storage'
 
-getmycomment=(props)=>{
-    // 根据账号获取已经发布的，并携带参数跳转到详情
-    alert("hello")
-    // props.navigation.navigate('热门')
-    
-}
+
 // test=()=>{
 
 // }
@@ -19,7 +15,7 @@ function Item(props){
             <Button type="primary" style={{flex:1,backgroundColor:'skyblue',borderColor:'skyblue'}}
             onPress={props.press}
             >
-                <MaterialCommunityIcons name={props.icon} color={'blue'} size={50} style={{margin:5}}/>   
+                <MaterialCommunityIcons name={props.icon} color={'white'} size={50} style={{margin:5}}/>   
             </Button>
             <Text style={{position:'absolute',width:'100%',textAlign:'center',bottom:20}}>{props.name}</Text>
         </View>
@@ -27,12 +23,30 @@ function Item(props){
 }
 
 function Myinfo(props){
+    test=()=>{
+        Toast.info('待开发', 1, undefined, false);
+    }
+    getmycomment=()=>{
+        storage.load({
+            key:'account',
+        }).then(ret=>{    
+            fetch('http://47.93.233.220:8099/getmycomments?userid='+ret.userid).then(res=>{
+                return res.json()
+            }).then(res=>{
+                // console.log(res)
+                props.navigation.navigate('我的发布',{data:res})
+            })
+        }).catch(err=>{
+            props.navigation.navigate('我的发布')
+        })
+        
+    }
     return (
     <View style={{width:300,height:300,flexDirection:'row',flexWrap:'wrap',borderRadius:10}}>
        <Item icon={"comment"} name={'我的发表'} press={getmycomment}/>
-       <Item icon={"comment-processing"} name={'我的评论'}/>
-       <Item icon={"message-alert"} name={'我的消息'}/>
-       <Item icon={"dots-horizontal-circle"} name={'更多'}/>
+       <Item icon={"comment-processing"} name={'我的评论'} press={test}/>
+       <Item icon={"message-alert"} name={'我的消息'} press={test}/>
+       <Item icon={"dots-horizontal-circle"} name={'更多'} press={test}/>
     </View>
     )
 }
