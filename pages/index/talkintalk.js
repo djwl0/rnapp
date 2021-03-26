@@ -1,196 +1,297 @@
 import React from 'react';
 import {
-    View,
-    FlatList,
-    Text,
-    Image,TextInput,ToastAndroid,Keyboard,TouchableHighlight, Modal} from 'react-native';
-import utime from '../transformtime'
-import storage from '../Storage'
+  View,
+  FlatList,
+  Text,
+  Image,
+  TextInput,
+  ToastAndroid,
+  Keyboard,
+  TouchableHighlight,
+  Modal,
+} from 'react-native';
+import utime from '../transformtime';
+import storage from '../Storage';
 
-class Talkintalk extends React.Component{
-    state={
-        modalhide:false,
-        textvalue:"",
-        placeholder:"",
-        talkintalkitem:{},
-        kkk:{}
-    }
-    onChangeText=(value)=>{
-        this.setState({
-            textvalue:value
-        })
-    }
-    reply=()=>{
-        storage.load({key:"account"}).then(red=>{
-        if(this.state.textvalue!="")
-        fetch("http://47.93.233.220:8099/inserttalkin?commentid="+this.props.route.params.zz.commentid
-            +"&&talkid="+this.props.route.params.zz.talkid+"&&userid="+red.userid+"&&replyuserid="+this.state.talkintalkitem.userid
-            +"&&main="+this.state.textvalue).then(res=>{
-                return res.json()
-            }).then(res=>{
-                if(res=="1")
-                {
-                    // 老的数据源
-                    const old=this.props.route.params.ll
-                    // console.log(old)
-                    // 新的数据源
-                    old.unshift({
-                        commentid:old[0].commentid,
-                        icon:red.icon,
-                        main:this.state.textvalue,
-                        replyuserid:this.state.talkintalkitem.userid,
-                        replyusername:this.state.talkintalkitem.username,
-                        time:new Date(),
-                        userid:red.userid,
-                        username:red.username,
-                        talkintalkid:200
-                    })
-                    // console.log(newll)
-                    this.setState({
-                        modalhide:false,
-                        talkintalkitem:{},
-                        placeholder:"",
-                        textvalue:"",
-                    })
-                //收起键盘  
-                    Keyboard.dismiss()                  
-                    ToastAndroid.showWithGravityAndOffset('评论成功',ToastAndroid.SHORT,ToastAndroid.CENTER,0,0)
-                    this.props.route.params.refrush()
-                }
-                
+class Talkintalk extends React.Component {
+  state = {
+    modalhide: false,
+    textvalue: '',
+    placeholder: '',
+    talkintalkitem: {},
+    kkk: {},
+  };
+  onChangeText = (value) => {
+    this.setState({
+      textvalue: value,
+    });
+  };
+  reply = () => {
+    storage
+      .load({key: 'account'})
+      .then((red) => {
+        if (this.state.textvalue != '')
+          fetch(
+            'http://47.93.233.220:8099/inserttalkin?commentid=' +
+              this.props.route.params.zz.commentid +
+              '&&talkid=' +
+              this.props.route.params.zz.talkid +
+              '&&userid=' +
+              red.userid +
+              '&&replyuserid=' +
+              this.state.talkintalkitem.userid +
+              '&&main=' +
+              this.state.textvalue,
+          )
+            .then((res) => {
+              return res.json();
             })
-            else
-            ToastAndroid.showWithGravityAndOffset('请输入内容',ToastAndroid.SHORT,ToastAndroid.CENTER,0,0)
+            .then((res) => {
+              if (res == '1') {
+                // 老的数据源
+                const old = this.props.route.params.ll;
+                // console.log(old)
+                // 新的数据源
+                old.unshift({
+                  commentid: old[0].commentid,
+                  icon: red.icon,
+                  main: this.state.textvalue,
+                  replyuserid: this.state.talkintalkitem.userid,
+                  replyusername: this.state.talkintalkitem.username,
+                  time: new Date(),
+                  userid: red.userid,
+                  username: red.username,
+                  talkintalkid: 200,
+                });
+                // console.log(newll)
+                this.setState({
+                  modalhide: false,
+                  talkintalkitem: {},
+                  placeholder: '',
+                  textvalue: '',
+                });
+                //收起键盘
+                Keyboard.dismiss();
+                ToastAndroid.showWithGravityAndOffset(
+                  '评论成功',
+                  ToastAndroid.SHORT,
+                  ToastAndroid.CENTER,
+                  0,
+                  0,
+                );
+                this.props.route.params.refrush();
+              }
+            });
+        else
+          ToastAndroid.showWithGravityAndOffset(
+            '请输入内容',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+            0,
+            0,
+          );
+      })
+      .catch((err) => {
+        ToastAndroid.showWithGravityAndOffset(
+          '请先登录',
+          ToastAndroid.SHORT,
+          ToastAndroid.TOP,
+          0,
+          0,
+        );
+      });
+  };
 
-
-        }).catch(err=>{
-            ToastAndroid.showWithGravityAndOffset('请先登录',ToastAndroid.SHORT,ToastAndroid.TOP,0,0)
-        })
-
-       
-    }
-
-    render(){
-        const item=this.props.route.params.zz
-        const talkintalkitem=({item})=>{
-            return(
-                <TouchableHighlight
-                activeOpacity={1}
-                underlayColor="#F0F0F0"
-               onPress={()=>{
-                this.setState({modalhide:true,placeholder:"回复："+item.username,talkintalkitem:item})
-               }
-                 }>
-                    <View style={{paddingHorizontal:10,paddingVertical:2,borderBottomWidth:0.2,borderColor:'grey'}}>
-                        <View style={{height:40,flexDirection:'row'}}>
-                            {/* 头像 */}
-                            <Image
-                                    style={{height:40,width:40,borderRadius:20}}
-                                    source={{uri:item.icon}}
-                                />
-                            {/* 昵称和时间 */}
-                            <View style={{flex:1}}>
-                                <Text style={{flex:1,paddingLeft:10}}>{item.username}</Text>
-                                <Text style={{flex:1,paddingLeft:10,color:'grey',fontSize:12}}>
-                                {utime(item.time)}
-                            {/* {item.time} */}
-                                </Text>
-                            </View>
-                        </View>
-                        <Text  style={{paddingLeft:50,paddingRight:15,paddingVertical:10,fontSize:14}}>
-                            {item.replyusername==null?"":(
-                            <Text style={{color:'black'}}>回复
-                                <Text style={{color:'#1A94E6'}}>
-                                {item.replyusername}
-                                </Text>：                            
-                            </Text>)}
-                            <Text style={{color:'black'}}>{item.main}</Text>
-                        </Text>
-                    </View>
-                </TouchableHighlight>
-            )
-        }
-        return(
-            <View style={{flex:1}}>
-                {/* 评论主要内容 */}
-                <View style={{paddingHorizontal:10,paddingVertical:2,borderBottomWidth:0.1,borderColor:'grey',backgroundColor:'white'}}>
-                    <View style={{height:40,flexDirection:'row'}}>
-                        {/* 评论人的头像 */}
-                        <Image
-                                style={{height:40,width:40,borderRadius:20}}
-                                source={{uri:item.icon}}
-                            />
-                        <View style={{flex:1}}>
-                            <Text style={{flex:1,paddingLeft:10}}>{item.username}</Text>
-                            <Text style={{flex:1,paddingLeft:10,color:'grey',fontSize:12}}>
-                            {utime(item.time)}
-                            </Text>
-                        </View>
-                    </View>
-                    <Text style={{paddingLeft:50,paddingRight:15,paddingVertical:10,fontSize:14}}>{item.maintalk}</Text>
-                </View>
-                {/* 评论楼中楼内容 */}
-                <View style={{flex:1,backgroundColor:'white',marginTop:15}}>               
-                    <FlatList
-                        data={this.props.route.params.ll}
-                        renderItem={talkintalkitem}
-                        keyExtractor={(item) => item.talkintalkid.toString()}
-                    />
-                </View>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={this.state.modalhide}
-                    onRequestClose={() => {
-                    this.setState({modalhide:false})
-                    }}
-                >
-                    <View style={{flex: 1,justifyContent: "center",alignItems: "center",}}>
-                        <View style={{width:300,backgroundColor:'skyblue',borderRadius:20}}>
-                            <TextInput
-                                style={{ marginLeft:25,width:250,height: 90, borderColor: 'gray', borderWidth: 1,borderRadius:10,marginTop:25,backgroundColor:'white' }}
-                                onChangeText={value => this.onChangeText(value)}
-                                value={this.state.textvalue}
-                                placeholder={this.state.placeholder}
-                                multiline={true}
-                                numberOfLines={5}
-                                maxLength={150}
-                            />
-                            <View style={{marginTop:10,flexDirection:'row',height:40,borderBottomRightRadius:20,borderBottomLeftRadius:20}}>
-                                {/* 返回 */}
-                                <TouchableHighlight
-                                    activeOpacity={0.6}
-                                    underlayColor="#DDDDDD"
-                                    onPress={
-                                    () =>this.setState({modalhide:false})
-                                    }
-                                    style={{flex:1,borderBottomLeftRadius:20}}
-                                    >             
-                                    <View style={{flex:1,borderBottomLeftRadius:20}}>
-                                        <Text style={{flex:1,textAlign:'center',lineHeight:40,borderBottomLeftRadius:20}}>返回</Text>
-                                    </View>
-                                </TouchableHighlight>
-                                {/* 确定 */}
-                                <TouchableHighlight
-                                    activeOpacity={0.6}
-                                    underlayColor="#DDDDDD"
-                                    onPress={() =>this.reply()}
-                                    style={{flex:1,borderBottomRightRadius:20}}
-                                    >
-                                    <View style={{flex:1,borderBottomRightRadius:20}}>
-                                        <Text style={{flex:1,textAlign:'center',lineHeight:40,borderBottomRightRadius:20}}>确定</Text>
-                                    </View>
-                                </TouchableHighlight>
-                            </View>
-
-                        </View>
-                    </View>
-
-                </Modal>
+  render() {
+    const item = this.props.route.params.zz;
+    const talkintalkitem = ({item}) => {
+      return (
+        <TouchableHighlight
+          activeOpacity={1}
+          underlayColor="#F0F0F0"
+          onPress={() => {
+            this.setState({
+              modalhide: true,
+              placeholder: '回复：' + item.username,
+              talkintalkitem: item,
+            });
+          }}>
+          <View
+            style={{
+              paddingHorizontal: 10,
+              paddingVertical: 2,
+              borderBottomWidth: 0.2,
+              borderColor: 'grey',
+            }}>
+            <View style={{height: 40, flexDirection: 'row'}}>
+              {/* 头像 */}
+              <Image
+                style={{height: 40, width: 40, borderRadius: 20}}
+                source={{uri: item.icon}}
+              />
+              {/* 昵称和时间 */}
+              <View style={{flex: 1}}>
+                <Text style={{flex: 1, paddingLeft: 10}}>{item.username}</Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    paddingLeft: 10,
+                    color: 'grey',
+                    fontSize: 12,
+                  }}>
+                  {utime(item.time)}
+                  {/* {item.time} */}
+                </Text>
+              </View>
             </View>
-        )    
-    }
-
+            <Text
+              style={{
+                paddingLeft: 50,
+                paddingRight: 15,
+                paddingVertical: 10,
+                fontSize: 14,
+              }}>
+              {item.replyusername == null ? (
+                ''
+              ) : (
+                <Text style={{color: 'black'}}>
+                  回复
+                  <Text style={{color: '#1A94E6'}}>{item.replyusername}</Text>：
+                </Text>
+              )}
+              <Text style={{color: 'black'}}>{item.main}</Text>
+            </Text>
+          </View>
+        </TouchableHighlight>
+      );
+    };
+    return (
+      <View style={{flex: 1}}>
+        {/* 评论主要内容 */}
+        <View
+          style={{
+            paddingHorizontal: 10,
+            paddingVertical: 2,
+            borderBottomWidth: 0.1,
+            borderColor: 'grey',
+            backgroundColor: 'white',
+          }}>
+          <View style={{height: 40, flexDirection: 'row'}}>
+            {/* 评论人的头像 */}
+            <Image
+              style={{height: 40, width: 40, borderRadius: 20}}
+              source={{uri: item.icon}}
+            />
+            <View style={{flex: 1}}>
+              <Text style={{flex: 1, paddingLeft: 10}}>{item.username}</Text>
+              <Text
+                style={{flex: 1, paddingLeft: 10, color: 'grey', fontSize: 12}}>
+                {utime(item.time)}
+              </Text>
+            </View>
+          </View>
+          <Text
+            style={{
+              paddingLeft: 50,
+              paddingRight: 15,
+              paddingVertical: 10,
+              fontSize: 14,
+            }}>
+            {item.maintalk}
+          </Text>
+        </View>
+        {/* 评论楼中楼内容 */}
+        <View style={{flex: 1, backgroundColor: 'white', marginTop: 15}}>
+          <FlatList
+            data={this.props.route.params.ll}
+            renderItem={talkintalkitem}
+            keyExtractor={(item) => item.talkintalkid.toString()}
+          />
+        </View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalhide}
+          onRequestClose={() => {
+            this.setState({modalhide: false});
+          }}>
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <View
+              style={{
+                width: 300,
+                backgroundColor: 'skyblue',
+                borderRadius: 20,
+              }}>
+              <TextInput
+                style={{
+                  marginLeft: 25,
+                  width: 250,
+                  height: 90,
+                  borderColor: 'gray',
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  marginTop: 25,
+                  backgroundColor: 'white',
+                }}
+                onChangeText={(value) => this.onChangeText(value)}
+                value={this.state.textvalue}
+                placeholder={this.state.placeholder}
+                multiline={true}
+                numberOfLines={5}
+                maxLength={150}
+              />
+              <View
+                style={{
+                  marginTop: 10,
+                  flexDirection: 'row',
+                  height: 40,
+                  borderBottomRightRadius: 20,
+                  borderBottomLeftRadius: 20,
+                }}>
+                {/* 返回 */}
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="#DDDDDD"
+                  onPress={() => this.setState({modalhide: false})}
+                  style={{flex: 1, borderBottomLeftRadius: 20}}>
+                  <View style={{flex: 1, borderBottomLeftRadius: 20}}>
+                    <Text
+                      style={{
+                        flex: 1,
+                        textAlign: 'center',
+                        lineHeight: 40,
+                        borderBottomLeftRadius: 20,
+                      }}>
+                      返回
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+                {/* 确定 */}
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="#DDDDDD"
+                  onPress={() => this.reply()}
+                  style={{flex: 1, borderBottomRightRadius: 20}}>
+                  <View style={{flex: 1, borderBottomRightRadius: 20}}>
+                    <Text
+                      style={{
+                        flex: 1,
+                        textAlign: 'center',
+                        lineHeight: 40,
+                        borderBottomRightRadius: 20,
+                      }}>
+                      确定
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
 }
 
 export default Talkintalk;
