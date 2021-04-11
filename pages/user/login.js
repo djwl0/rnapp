@@ -37,7 +37,6 @@ class Login extends React.Component {
         })
         .then((res) => {
           if (res != '') {
-            // console.log(res[0])
             const re = res[0];
             storage
               .save({
